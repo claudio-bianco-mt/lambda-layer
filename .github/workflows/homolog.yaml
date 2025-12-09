@@ -43,7 +43,7 @@ jobs:
             -v ${{ github.workspace }}:/var/task \
             -w /var/task \
             ${{ env.LAMBDA_RUNTIME_IMAGE }} \
-            sh -c "pip install -r requirements.txt -t layer_package/python --no-cache-dir"
+            sh -c "pip install -r payrollConsumer/requirements.txt -t layer_package/python --no-cache-dir"
 
       # --- 3. COMPACTAÇÃO ---
       - name: Zip the layer package
