@@ -4,9 +4,9 @@ on:
   push:
     branches:
       - main
-    paths:
+    # paths:
       # - 'requirements.txt'
-      - 'payrollConsumer/requirements.txt'
+      # - 'payrollConsumer/requirements.txt'
 
 env:
   LAYER_NAME: custom-python-3-13-layer
