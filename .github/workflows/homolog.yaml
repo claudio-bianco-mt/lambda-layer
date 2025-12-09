@@ -35,15 +35,16 @@ jobs:
           mkdir -p layer_package/python
 
           # 2. Executa a instalação dentro do contêiner Docker do Lambda
-          # -v: Monta o diretório atual no /var/task do contêiner
-          # -w: Define o diretório de trabalho
-          # sh -c "..." : Comando para instalar os pacotes
+          # ADICIONADO: --entrypoint /bin/bash para evitar o erro do handler
           docker run \
             --rm \
-            -v ${{ github.workspace }}:/var/task \
+            --entrypoint /bin/bash \
+            -v /home/runner/work/lambda-layer/lambda-layer:/var/task \
             -w /var/task \
-            ${{ env.LAMBDA_RUNTIME_IMAGE }} \
-            sh -c "pip install -r payrollConsumer/requirements.txt -t layer_package/python --no-cache-dir"
+            public.ecr.aws/lambda/python:3.13 \
+            -c "pip install -r payrollConsumer/requirements.txt -t layer_package/python --no-cache-dir"
+          # Nota: O comando 'sh -c "..."' foi substituído por '-c "..."' 
+          # após a definição do novo entrypoint /bin/bash.
 
       # --- 3. COMPACTAÇÃO ---
       - name: Zip the layer package
