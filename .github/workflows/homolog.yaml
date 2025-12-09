@@ -5,7 +5,8 @@ on:
     branches:
       - main
     paths:
-      - 'requirements.txt'
+      # - 'requirements.txt'
+      - 'payrollConsumer/requirements.txt'
 
 env:
   LAYER_NAME: custom-python-3-13-layer
@@ -19,13 +20,13 @@ jobs:
       - name: Checkout code
         uses: actions/checkout@v4
 
-      # --- 1. CONFIGURAÇÃO AWS ---
-      - name: Configure AWS credentials
-        uses: aws-actions/configure-aws-credentials@v4
-        with:
-          aws-access-key-id: ${{ secrets.AWS_ACCESS_KEY_ID }}
-          aws-secret-access-key: ${{ secrets.AWS_SECRET_ACCESS_KEY }}
-          aws-region: ${{ env.AWS_REGION }}
+      # # --- 1. CONFIGURAÇÃO AWS ---
+      # - name: Configure AWS credentials
+      #   uses: aws-actions/configure-aws-credentials@v4
+      #   with:
+      #     aws-access-key-id: ${{ secrets.AWS_ACCESS_KEY_ID }}
+      #     aws-secret-access-key: ${{ secrets.AWS_SECRET_ACCESS_KEY }}
+      #     aws-region: ${{ env.AWS_REGION }}
 
       # --- 2. CONSTRUÇÃO DO LAYER COM DOCKER ---
       - name: Build Layer Package inside Docker
