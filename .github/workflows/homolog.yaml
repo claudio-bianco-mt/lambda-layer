@@ -13,6 +13,14 @@ env:
   AWS_REGION: us-east-1 # Altere para a sua região
   LAMBDA_RUNTIME_IMAGE: public.ecr.aws/lambda/python:3.13 # Imagem base oficial do AWS Lambda
 
+  MASTER_DEPLOY_KEY: ${{ secrets.MASTER_DEPLOY_KEY }}
+  AWS_SECRET_ID: ${{ secrets.AWS_SECRET_ID }}
+  AWS_DEFAULT_REGION: ${{ secrets.AWS_DEFAULT_REGION }}
+  AWS_ACCESS_KEY_ID: ${{ secrets.AWS_ACCESS_KEY_HOMOLOG }}
+  AWS_SECRET_ACCESS_KEY: ${{ secrets.AWS_SECRET_ACCESS_KEY_HOMOLOG }}
+  GHCR_TOKEN: ${{ secrets.GHCR_TOKEN }}
+  GHCR_USER: ${{ secrets.GHCR_USER }}  
+
 jobs:
   deploy_layer:
     runs-on: ubuntu-latest
@@ -53,6 +61,13 @@ jobs:
           cd layer_package
           zip -r ../layer.zip .
           cd ..
+
+      # --- 4. TEST - DEPLOY COM AWS CLI ---
+      - name: Publish Lambda Layer        
+        run: |
+          aws lambda list-functions \
+            --query 'Functions[*].FunctionName' \
+            --output text
 
       # # --- 4. DEPLOY COM AWS CLI ---
       # - name: Publish Lambda Layer
